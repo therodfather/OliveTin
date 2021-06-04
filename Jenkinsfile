@@ -2,20 +2,8 @@ pipeline {
     agent any
 
     stages {
-        stage ('Pre-build') {
-            parallel { 
-                stage('Codestyle') {
-                    steps {
-                        sh 'make daemon-codestyle'
-                        sh 'make webui-codestyle'
-                    }
-                }
-                stage('Test') {
-                    steps {
-                        sh 'make daemon-unittests'
-                    }
-                }
-            }
+        stage ('Pre-Build') {
+            sh 'make grpc'
         }
         
         stage('Compile') {
@@ -23,5 +11,22 @@ pipeline {
                 sh 'make grpc daemon-compile'
             }
         }
+        
+        stage ('Post-Compile') {
+            parallel { 
+                stage('Codestyle') {
+                    steps {
+                        sh 'make daemon-codestyle'
+                        sh 'make webui-codestyle'
+                    }
+                }
+                stage('UnitTests') {
+                    steps {
+                        sh 'make daemon-unittests'
+                    }
+                }
+            }
+        }
+        
     }
 }
