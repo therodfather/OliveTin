@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        paralell { 
+        parallel { 
             stage('Codestyle') {
                 steps {
                     sh 'make daemon-codestyle'
