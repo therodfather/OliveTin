@@ -3,7 +3,9 @@ pipeline {
 
     stages {
         stage ('Pre-Build') {
-            sh 'make grpc'
+            steps {
+                sh 'make grpc'
+            }
         }
         
         stage('Compile') {
