@@ -2,16 +2,18 @@ pipeline {
     agent any
 
     stages {
-        parallel { 
-            stage('Codestyle') {
-                steps {
-                    sh 'make daemon-codestyle'
-                    sh 'make webui-codestyle'
+        stage ('Pre-build') {
+            parallel { 
+                stage('Codestyle') {
+                    steps {
+                        sh 'make daemon-codestyle'
+                        sh 'make webui-codestyle'
+                    }
                 }
-            }
-            stage('Test') {
-                steps {
-                    sh 'make daemon-unittests'
+                stage('Test') {
+                    steps {
+                        sh 'make daemon-unittests'
+                    }
                 }
             }
         }
